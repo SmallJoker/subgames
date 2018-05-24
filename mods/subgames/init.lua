@@ -413,9 +413,53 @@ end
   TODO may flowing liquid fix
   TODO split skywars and hiddenseeker warte lobby
   TODO no regen after time
-Leonard Hide and seek map machen lassen + ich neue skywars submerged.
+Hide and seek map machen neue skywars submerged.
 may später shooter mod. TODO
-Mit Leonard server umleitung beschprechen.
+Mit server umleitung beschprechen.
+TODO TalkLounge gram
+local old_node_dig = minetest.node_dig
+function minetest.node_dig(pos, node, digger)
+    local player = digger:get_player_name()
+    local check = false
+    for key, value in pairs(mesewars) do
+      for k, v in pairs(value.players) do
+        if v == digger:get_player_name() then
+          check = true
+        end
+      end
+    end
+    for key, value in pairs(tntwars) do
+      for k, v in pairs(value.players) do
+        if v == digger:get_player_name() then
+          check = true
+        end
+      end
+    end
+    if check and (node.name == "system_mesewars:buildblock" or node.name == "system_mesewars:baseblock" or node.name == "system_mesewars:meseblock" or node.name == "xdecor:cobweb" or node.name == "fire:basic_flame") then
+      return old_node_dig(pos, node, digger)
+    elseif check then
+      return
+    else
+      return old_node_dig(pos, node, digger)
+    end
+end
+
+local old_node_place = minetest.item_place
+function minetest.item_place(itemstack, placer, pointed_thing, param2)
+  local name = placer:get_player_name()
+    local check = false
+    for key, value in pairs(tntwars) do
+      for k, v in pairs(value.players) do
+        if v == name then
+          check = true
+        end
+      end
+    end
+    if not check then
+      return old_node_place(itemstack, placer, pointed_thing, param2)
+    end
+    return
+end
 
 CHange 0.5
 disable chest range check]]

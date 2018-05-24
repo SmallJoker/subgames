@@ -276,7 +276,7 @@ minetest.register_globalstep(function(dtime)
       time_left = time_left-1
     elseif time_left then
       root_restart = true
-      for _,player in ipairs(minetest.get_connected_players()) do
+      for _,player in ipairs(subgames.get_lobby_players("mesewars")) do
         local spawn = minetest.setting_get_pos("spawn_lobby")
         player:setpos(spawn)
         subgames.clear_inv(player)
@@ -520,7 +520,7 @@ end
 
 --  Add a fix function
 function mesewars.fix()
-  for _,player in ipairs(minetest.get_connected_players()) do
+  for _,player in ipairs(subgames.get_lobby_players("mesewars")) do
      mesewars.color_tag(player)
   end
   for playernumb, playero in pairs(team1_players) do
