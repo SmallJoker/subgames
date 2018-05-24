@@ -177,19 +177,21 @@ function hiddenseeker.win(lobby)
       player:set_nametag_attributes({color = {a = 255, r = 255, g = 255, b = 255}})
       subgames.add_mithud(player, "Hidders Win!", 0xFF0000, 3)
     end
+    minetest.after(5, function()
+      for _, player in pairs(hiddenseeker.get_lobby_players(lobby)) do
+        subgames.clear_inv(player)
+        hiddenseeker.lobbys[lobby].players[player:get_player_name()] = true
+        player:setpos(hiddenseeker.lobbys[lobby].pos)
+        sfinv.set_page(player, "3d_armor:armor")
+        player:get_inventory():add_item("main", "subgames:leaver")
+      end
+      hiddenseeker.win(lobby)
+    end)
     hiddenseeker.lobbys[lobby].ingame = false
-    hiddenseeker.lobbys[lobby].players = {}
     hiddenseeker.lobbys[lobby].hiddingtime = 0
     hiddenseeker.lobbys[lobby].timetowin = 0
     hiddenseeker.lobbys[lobby].hidding = false
     start[lobby] = false
-    hiddenseeker.chat_send_all_lobby(lobby, "Server Restarts in 5 sec.")
-    minetest.after(5, function()
-      for _, player in pairs(hiddenseeker.get_lobby_players(lobby)) do
-        hiddenseeker.leave_game(player)
-        hiddenseeker.join_game(player, 0)
-      end
-    end)
   end
   else hiddenseeker.may_start_game(lobby)
   end
