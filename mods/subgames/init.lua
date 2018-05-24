@@ -163,7 +163,8 @@ function minetest.item_place_node(itemstack, placer, pointed_thing, param2)
   if placer then
     local name = placer:get_player_name()
     lobby = player_lobby[name]
-  else lobby = subgames.get_lobby_from_pos(pos)
+  else local pos = minetest.get_pointed_thing_position(pointed_thing, false)
+    lobby = subgames.get_lobby_from_pos(pos)
   end
   if not lobby then return end
   if areas[lobby].place then
