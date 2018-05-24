@@ -2,6 +2,7 @@ Subgames
 ========
 
 Contribution repository for the Minetest Server Subgames for all!
+
 This Repository is not for using on your own Server!
 
 License
