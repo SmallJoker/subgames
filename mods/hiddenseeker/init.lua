@@ -113,18 +113,13 @@ subgames.register_on_leaveplayer(function(player, lobby)
   end
 end)
 
-subgames.register_on_dignode(function(pos, oldnode, digger, lobby)
-  if lobby == "hiddenseeker" then
-    minetest.set_node(pos, oldnode)
-  end
-end)
+function areas.hiddenseeker.dig(pos, node, digger)
+  return false
+end
 
-subgames.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing, lobby)
-  if lobby == "hiddenseeker" then
-    minetest.set_node(pos, oldnode)
-    return true
-  end
-end)
+function areas.hiddenseeker.place(itemstack, placer, pointed_thing, param2)
+  return false
+end
 
 subgames.register_on_punchplayer(function(player, hitter, time_from_last_punch, tool_capabilities, dir, damage, lobby)
   if lobby == "hiddenseeker" and player and hitter then

@@ -114,6 +114,25 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
   end
 end)
 
+local old_node_dig = minetest.node_dig
+function minetest.node_dig(pos, node, digger)
+  local lobby
+  if digger then
+    local name = digger:get_player_name()
+    lobby = player_lobby[name]
+  else lobby = subgames.get_lobby_from_pos(pos)
+  end
+  if not lobby then return end
+  if areas[lobby].dig then
+    local result = areas[lobby].dig(pos, node, digger)
+    if result == true then
+      return old_node_dig(pos, node, digger)
+    else return
+    end
+  else return old_node_dig(pos, node, digger)
+  end
+end
+
 --  Add a register on place node
 subgames.on_placenode = {}
 function subgames.register_on_placenode(func, pos, newnode, placer, oldnode, itemstack, pointed_thing, lobby)
@@ -137,6 +156,25 @@ minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack
   end
   return toreturn
 end)
+
+local old_node_place = minetest.item_place_node
+function minetest.item_place_node(itemstack, placer, pointed_thing, param2)
+  local lobby
+  if placer then
+    local name = placer:get_player_name()
+    lobby = player_lobby[name]
+  else lobby = subgames.get_lobby_from_pos(pos)
+  end
+  if not lobby then return end
+  if areas[lobby].place then
+    local result = areas[lobby].place(itemstack, placer, pointed_thing, param2)
+    if result == true then
+      return old_node_place(itemstack, placer, pointed_thing, param2)
+    else return
+    end
+  else return old_node_place(itemstack, placer, pointed_thing, param2)
+  end
+end
 
 --  Add a register on punchplayer
 subgames.on_punchplayer = {}
@@ -408,7 +446,6 @@ end
   maps from here https://minecraftmapsd.wixsite.com/minecraftmaps/packs
   HELPGUID
   TODO skywars unendliche wasser quelle und blöcke
-  test serverlist  gram
   TODO maps
   TODO may flowing liquid fix
   TODO split skywars and hiddenseeker warte lobby
@@ -416,50 +453,6 @@ end
 Hide and seek map machen neue skywars submerged.
 may später shooter mod. TODO
 Mit server umleitung beschprechen.
-TODO TalkLounge gram
-local old_node_dig = minetest.node_dig
-function minetest.node_dig(pos, node, digger)
-    local player = digger:get_player_name()
-    local check = false
-    for key, value in pairs(mesewars) do
-      for k, v in pairs(value.players) do
-        if v == digger:get_player_name() then
-          check = true
-        end
-      end
-    end
-    for key, value in pairs(tntwars) do
-      for k, v in pairs(value.players) do
-        if v == digger:get_player_name() then
-          check = true
-        end
-      end
-    end
-    if check and (node.name == "system_mesewars:buildblock" or node.name == "system_mesewars:baseblock" or node.name == "system_mesewars:meseblock" or node.name == "xdecor:cobweb" or node.name == "fire:basic_flame") then
-      return old_node_dig(pos, node, digger)
-    elseif check then
-      return
-    else
-      return old_node_dig(pos, node, digger)
-    end
-end
-
-local old_node_place = minetest.item_place
-function minetest.item_place(itemstack, placer, pointed_thing, param2)
-  local name = placer:get_player_name()
-    local check = false
-    for key, value in pairs(tntwars) do
-      for k, v in pairs(value.players) do
-        if v == name then
-          check = true
-        end
-      end
-    end
-    if not check then
-      return old_node_place(itemstack, placer, pointed_thing, param2)
-    end
-    return
-end
 
 CHange 0.5
 disable chest range check]]

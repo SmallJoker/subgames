@@ -81,12 +81,9 @@ subgames.register_on_dignode(function(pos, oldnode, digger, lobby)
   if lobby == "skywars" then
     local name = digger:get_player_name()
     local plobby = skywars.player_lobby[name]
-    if not skywars.lobbys[plobby].ingame then
-      minetest.set_node(pos, oldnode)
-    else local spos = minetest.pos_to_string(pos)
-      if not skywars.lobbys[plobby].mapblocks[spos] then
-        skywars.lobbys[plobby].mapblocks[spos] = oldnode
-      end
+    local spos = minetest.pos_to_string(pos)
+    if not skywars.lobbys[plobby].mapblocks[spos] then
+      skywars.lobbys[plobby].mapblocks[spos] = oldnode
     end
   end
 end)
@@ -100,15 +97,33 @@ subgames.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack
       plobby = skywars.player_lobby[name]
     end
     if not plobby then return end
-    if not skywars.lobbys[plobby].ingame then
-      minetest.set_node(pos, oldnode)
-    else local spos = minetest.pos_to_string(pos)
-      if not skywars.lobbys[plobby].mapblocks[spos] then
-        skywars.lobbys[plobby].mapblocks[spos] = oldnode
-      end
+    local spos = minetest.pos_to_string(pos)
+    if not skywars.lobbys[plobby].mapblocks[spos] then
+      skywars.lobbys[plobby].mapblocks[spos] = oldnode
     end
   end
 end)
+
+function areas.skywars.dig(pos, node, digger)
+  local name = digger:get_player_name()
+  local plobby = skywars.player_lobby[name]
+  if skywars.lobbys[plobby].ingame then
+    return true
+  end
+end
+
+function areas.skywars.place(itemstack, placer, pointed_thing, param2)
+  local plobby
+  if not placer or not placer:is_player() then
+    plobby = get_lobby_from_pos(pos)
+  else local name = placer:get_player_name()
+    plobby = skywars.player_lobby[name]
+  end
+  if not plobby then return end
+  if skywars.lobbys[plobby].ingame then
+    return true
+  end
+end
 
 subgames.register_on_drop(function(itemstack, dropper, pos, lobby)
   if lobby == "skywars" then

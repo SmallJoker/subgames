@@ -59,18 +59,13 @@ subgames.register_on_joinplayer(function(player, lobby)
   end
 end)
 
-subgames.register_on_dignode(function(pos, oldnode, digger, lobby)
-  if lobby == "main" then
-    minetest.set_node(pos, oldnode)
-  end
-end)
+function areas.main.dig(pos, node, digger)
+  return false
+end
 
-subgames.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing, lobby)
-  if lobby == "main" then
-    minetest.set_node(pos, oldnode)
-    return true
-  end
-end)
+function areas.main.place(itemstack, placer, pointed_thing, param2)
+  return false
+end
 
 subgames.register_on_chat_message(function(name, message, lobby)
   if lobby == "main" and name and message then
