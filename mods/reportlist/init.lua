@@ -25,7 +25,7 @@ function reportfunc.get_count(name)
 	local e = xban.find_entry(name)
 	if e and e.reporter then
 		return e.reported
-	else return ""
+	else return 0
 	end
 end
 
