@@ -103,7 +103,7 @@ function bucket.register_liquid(source, flowing, itemname, inventory_image, name
 					return
 				end
 
-				minetest.place_node(lpos, {name = source})
+				minetest.item_place_node(ItemStack(source), user, {type="node", under=lpos, above=lpos})
 				return ItemStack("bucket:bucket_empty")
 			end
 		})

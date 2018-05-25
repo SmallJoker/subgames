@@ -287,8 +287,8 @@ subgames.register_on_item_eat(function(hp_change, replace_with_item, itemstack, 
     local name = user:get_player_name()
     local pos = user:getpos()
     local blockpos = pos ; blockpos.y = blockpos.y -2
-    minetest.place_node(pos, {name="default:glass"})
-    local ent = minetest.add_entity(pos, "mesewars:temp")
+    minetest.item_place_node(ItemStack("default:glass"), user, {type="node", under=blockpos, above=blockpos})
+    local ent = minetest.add_entity(user:getpos(), "mesewars:temp")
     local obj = ent:get_luaentity()
     if obj and not user:get_attach() then
       user:set_attach(ent, "", {x = 0, y = 0, z = 0}, {x = 0, y = 0, z = 0})
@@ -382,12 +382,12 @@ minetest.register_craftitem("mesewars:bridge", {
   on_use = function(itemstack, user, pointed_thing)
     local name = user:get_player_name()
     local counter = 0
-    local lastpos = user:getpos()
+    local lastpos = user:getpos() ; lastpos.y = lastpos.y -1
     local high = lastpos.y
     while counter < 5 do
       counter = counter +1
       lastpos = vector.add(lastpos, user:get_look_dir()) ; lastpos.y = high
-      minetest.place_node(lastpos, {name="default:sandstone"})
+      minetest.item_place_node(ItemStack("default:sandstone"), user, {type="node", under=lastpos, above=lastpos})
     end
     itemstack:take_item()
     return itemstack
