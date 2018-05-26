@@ -9,4 +9,4 @@
 
 [submodule "mods/block_vps"]
 	path = mods/block_vps
-	url = https://github.com/red-001/block_vps
+	url = https://github.com/red-001/block_vps.git
