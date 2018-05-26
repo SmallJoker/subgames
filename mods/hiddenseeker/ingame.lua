@@ -115,7 +115,7 @@ subgames.register_on_respawnplayer(function(player, lobby)
 				player:setpos(hiddenseeker.lobbys[plobby].seekerpos)
 			else player:setpos(hiddenseeker.lobbys[plobby].pos)
 				subgames.clear_inv(player)
-				subgames.add_armor(player, {name="3d_armor:helmet_cactus"}, {name="3d_armor:chestplate_cactus"}, {name="3d_armor:leggings_cactus"}, {name="3d_armor:boots_cactus"})
+				subgames.add_armor(player, ItemStack("3d_armor:helmet_cactus"), ItemStack("3d_armor:chestplate_cactus"), ItemStack("3d_armor:leggings_cactus"), ItemStack("3d_armor:boots_cactus"))
 	      player:get_inventory():add_item("main", "default:sword_steel")
 			end
 			hiddenseeker.win(plobby)
