@@ -2,7 +2,11 @@
 	path = mods/minetest-3d_armor
 	url = https://github.com/stujones11/minetest-3d_armor.git
 	ignore = dirty
-	
+
 [submodule "mods/minetest-bows"]
 	path = mods/minetest-bows
 	url = https://github.com/Arcelmi/minetest-bows.git
+
+	[submodule "mods/block_vps"]
+		path = mods/block_vps
+		url = https://github.com/red-001/block_vps
