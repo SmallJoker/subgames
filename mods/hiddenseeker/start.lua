@@ -86,7 +86,7 @@ function hiddenseeker.seek(lobby)
     local inv = player:get_inventory()
     if hiddenseeker.lobbys[lobby].players[name] == "seeker" then
       player:setpos(hiddenseeker.lobbys[lobby].pos)
-      subgames.add_armor(player, {name="3d_armor:helmet_cactus"}, {name="3d_armor:chestplate_cactus"}, {name="3d_armor:leggings_cactus"}, {name="3d_armor:boots_cactus"})
+      subgames.add_armor(player, ItemStack("3d_armor:helmet_cactus"), ItemStack("3d_armor:chestplate_cactus"), ItemStack("3d_armor:leggings_cactus"), ItemStack("3d_armor:boots_cactus"))
       inv:add_item("main", "default:sword_steel")
       minetest.after(5, function()
         player:set_nametag_attributes({color = {a = 0, r = 255, g = 255, b = 255}})
