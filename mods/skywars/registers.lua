@@ -30,7 +30,7 @@ function skywars.open_teleporter_form(player)
     "tooltip[map1;"..skywars.lobbys[1].string_name.."]" ..
     "image_button[2,0;2,2;submerged.png;map2;"..status[2].."]" ..
     "tooltip[map2;"..skywars.lobbys[2].string_name.."]"..
-    "label[0,5;Alle maps from Hypixel.net]")
+    "label[0,5;All maps from Hypixel.net]")
 end
 
 local function get_lobby_from_pos(pos)
