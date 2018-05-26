@@ -131,7 +131,7 @@ end
 
 function hiddenseeker.rotate_block(player)
   local name = player:get_player_name()
-  if hiddenseeker.disguis[name].enable then
+  if hiddenseeker.disguis[name] and hiddenseeker.disguis[name].enable then
     handle_rotate(minetest.string_to_pos(hiddenseeker.disguis[name].pos))
     minetest.chat_send_player(name, "Rotated your block!")
   else minetest.chat_send_player(name, "You are not disguised!")
