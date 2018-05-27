@@ -54,6 +54,7 @@ subgames.register_on_joinplayer(function(player, lobby)
     minetest.after(1, function()
       if player:is_player_connected() and minetest.get_player_privs(name).shout then
         main.open_teleporter_form(player)
+	subgames.clear_inv(player)
       end
     end)
   end
