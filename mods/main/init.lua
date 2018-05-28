@@ -55,6 +55,9 @@ subgames.register_on_joinplayer(function(player, lobby)
       if player:is_player_connected() and minetest.get_player_privs(name).shout then
         main.open_teleporter_form(player)
 	subgames.clear_inv(player)
+	local inv = player:get_inventory()
+    	inv:add_item("main", "main:teleporter")
+   	sfinv.set_page(player, "subgames:lobbys")
       end
     end)
   end
