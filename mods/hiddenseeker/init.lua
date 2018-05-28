@@ -167,7 +167,9 @@ end)
 
 function hiddenseeker.join_game(player, lobby)
   local name = player:get_player_name()
-  if lobby ~= 0 and hiddenseeker.lobbys[lobby].ingame == true and #hiddenseeker.lobbys[lobby].players ~= hiddenseeker.max_players then
+  if lobby ~= 0 and #hiddenseeker.get_lobby_players(lobby) >= hiddenseeker.max_players then
+    return "The lobby is full!"
+  elseif lobby ~= 0 and hiddenseeker.lobbys[lobby].ingame == true then
     hiddenseeker.player_lobby[name] = lobby
     hiddenseeker.lobbys[lobby].players[name] = "seeker"
     hiddenseeker.chat_send_all_lobby(lobby, name.." is Seeker.")

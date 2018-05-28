@@ -188,7 +188,7 @@ function skywars.join_game(player, lobby)
   local name = player:get_player_name()
   if lobby ~= 0 and #skywars.get_lobby_players(lobby) >= skywars.lobbys[lobby].playercount then
     return "The lobby is full!"
-  elseif lobby ~= 0 and skywars.lobbys[lobby].ingame == true and #skywars.lobbys[lobby].players < skywars.lobbys[lobby].playercount then
+  elseif lobby ~= 0 and skywars.lobbys[lobby].ingame == true then
     skywars.player_lobby[name] = lobby
     player:setpos(skywars.lobbys[lobby].specpos)
     subgames.clear_inv(player)
