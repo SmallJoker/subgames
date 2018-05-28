@@ -193,7 +193,6 @@ function skywars.join_game(player, lobby)
     player:setpos(skywars.lobbys[lobby].specpos)
     subgames.clear_inv(player)
     skywars.lobbys[lobby].players[name] = false
-    minetest.chat_send_player(name, "You joined the map "..skywars.lobbys[lobby].string_name.."!")
     sfinv.set_page(player, "subgames:kits")
     subgames.spectate(player)
     return "Lobby is ingame! So you are now spectating."
@@ -202,7 +201,6 @@ function skywars.join_game(player, lobby)
     subgames.clear_inv(player)
     if lobby ~= 0 then
       skywars.lobbys[lobby].players[name] = true
-      minetest.chat_send_player(name, "You joined the map "..skywars.lobbys[lobby].string_name.."!")
       sfinv.set_page(player, "subgames:kits")
       player:get_inventory():add_item("main", "subgames:leaver")
       skywars.win(lobby)
@@ -223,7 +221,7 @@ function skywars.join_game(player, lobby)
       minetest.fix_light(skywars.lobbys[lobby].mappos1, skywars.lobbys[lobby].mappos2)
       worldedit.clear_objects(skywars.lobbys[lobby].mappos1, skywars.lobbys[lobby].mappos2)
     end
-    return "You joined the Lobby."
+    return "You joined the map "..skywars.lobbys[lobby].string_name.."!"
   end
 end
 

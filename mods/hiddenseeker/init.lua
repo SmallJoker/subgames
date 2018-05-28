@@ -188,7 +188,6 @@ function hiddenseeker.join_game(player, lobby)
     if lobby ~= 0 then
       hiddenseeker.lobbys[lobby].players[name] = true
       player:set_nametag_attributes({color = {a = 0, r = 255, g = 255, b = 255}})
-      minetest.chat_send_player(name, "You joined the map "..hiddenseeker.lobbys[lobby].string_name.."!")
       sfinv.set_page(player, "3d_armor:armor")
       player:get_inventory():add_item("main", "subgames:leaver")
       hiddenseeker.win(lobby)
@@ -204,7 +203,7 @@ function hiddenseeker.join_game(player, lobby)
       local schem = minetest.get_worldpath() .. "/schems/" .. hiddenseeker.lobbys[lobby].schem .. ".mts"
       minetest.place_schematic(hiddenseeker.lobbys[lobby].schempos, schem)
     end
-    return "You joined the Lobby."
+    return "You joined the map "..hiddenseeker.lobbys[lobby].string_name.."!"
   end
 end
 
