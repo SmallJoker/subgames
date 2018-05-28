@@ -197,8 +197,6 @@ function skywars.join_game(player, lobby)
     sfinv.set_page(player, "subgames:kits")
     subgames.spectate(player)
     return "Lobby is ingame! So you are now spectating."
-  elseif lobby ~= 0 and #skywars.lobbys[lobby].players >= skywars.lobbys[lobby].playercount then
-    return "The lobby is full!"
   else skywars.player_lobby[name] = lobby
     player:setpos(skywars.lobbys[lobby].specpos)
     subgames.clear_inv(player)

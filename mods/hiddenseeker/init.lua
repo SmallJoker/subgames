@@ -182,8 +182,6 @@ function hiddenseeker.join_game(player, lobby)
     end
     player:set_nametag_attributes({color = {a = 0, r = 255, g = 255, b = 255}})
     return "Lobby is ingame! So you are now a seeker."
-  elseif lobby ~= 0 and #hiddenseeker.lobbys[lobby].players == hiddenseeker.max_players then
-    return "The lobby is full!"
   else hiddenseeker.player_lobby[name] = lobby
     player:setpos(hiddenseeker.lobbys[lobby].pos)
     subgames.clear_inv(player)
