@@ -203,7 +203,9 @@ function hiddenseeker.join_game(player, lobby)
       local schem = minetest.get_worldpath() .. "/schems/" .. hiddenseeker.lobbys[lobby].schem .. ".mts"
       minetest.place_schematic(hiddenseeker.lobbys[lobby].schempos, schem)
     end
-    return "You joined the map "..hiddenseeker.lobbys[lobby].string_name.."!"
+    if lobby ~= 0 then
+      return "You joined the map "..hiddenseeker.lobbys[lobby].string_name.."!"
+    end
   end
 end
 

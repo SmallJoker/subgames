@@ -221,7 +221,9 @@ function skywars.join_game(player, lobby)
       minetest.fix_light(skywars.lobbys[lobby].mappos1, skywars.lobbys[lobby].mappos2)
       worldedit.clear_objects(skywars.lobbys[lobby].mappos1, skywars.lobbys[lobby].mappos2)
     end
-    return "You joined the map "..skywars.lobbys[lobby].string_name.."!"
+    if lobby ~= 0 then
+      return "You joined the map "..skywars.lobbys[lobby].string_name.."!"
+    end
   end
 end
 
