@@ -18,7 +18,7 @@ subgames.register_chatcommand("leave", {
     if player then
       hiddenseeker.leave_game(player)
       hiddenseeker.win(hiddenseeker.player_lobby[user])
-      hiddenseeker.join_game(player, 0)
+      hiddenseeker.join_game(player, hiddenseeker.player_lobby[user])
       minetest.chat_send_player(user, "You have left the Game!")
     end
 
@@ -36,7 +36,7 @@ subgames.register_chatcommand("letleave", {
 		if player then
       hiddenseeker.leave_game(player)
       hiddenseeker.win(hiddenseeker.player_lobby[param])
-      hiddenseeker.join_game(player, 0)
+      hiddenseeker.join_game(player, hiddenseeker.player_lobby[param])
       minetest.chat_send_player(name, "You have left the player "..param)
     else minetest.chat_send_player(name, "The player is not online!")
     end
@@ -51,12 +51,13 @@ subgames.register_chatcommand("restart", {
   lobby = "hiddenseeker",
   func = function(name)
     local msg = core.colorize("red", "Restarting Game (by " .. name .. ")")
-    hiddenseeker.chat_send_all_lobby(hiddenseeker.player_lobby[name], msg)
-    for _,player in ipairs(hiddenseeker.get_lobby_players(hiddenseeker.player_lobby[name])) do
+    local lobby = hiddenseeker.player_lobby[param]
+    hiddenseeker.chat_send_all_lobby(lobby, msg)
+    for _,player in ipairs(hiddenseeker.get_lobby_players(lobby)) do
       hiddenseeker.leave_game(player)
-      hiddenseeker.join_game(player, 1)
+      hiddenseeker.join_game(player, lobby)
     end
-    hiddenseeker.win(hiddenseeker.player_lobby[name])
+    hiddenseeker.win(lobby)
   end,
 })
 

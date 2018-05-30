@@ -3,10 +3,6 @@
 skywars = {}
 
 skywars.lobbys = {
-  [0] = {
-    ["specpos"] = {x=16, y=1, z=709},
-    ["ingame"] = false
-  },
   [1] = {
     ["string_name"] = "Tiki",
     ["playercount"] = 12,
@@ -186,30 +182,25 @@ end
 
 function skywars.join_game(player, lobby)
   local name = player:get_player_name()
-  if lobby ~= 0 and #skywars.get_lobby_players(lobby) >= skywars.lobbys[lobby].playercount then
-    return "The lobby is full!"
-  elseif lobby ~= 0 and skywars.lobbys[lobby].ingame == true then
+  if #skywars.get_lobby_players(lobby) >= skywars.lobbys[lobby].playercount then
+    local newlobby = #skywars.lobbys
+    if #skywars.get_lobby_players(newlobby) < skywars.lobbys[newlobby].playercount then
+      skywars.join_game(player, newlobby)
+    end
+    return "The lobby is full !"
+  elseif skywars.lobbys[lobby].ingame == true then
     skywars.player_lobby[name] = lobby
     player:setpos(skywars.lobbys[lobby].specpos)
     subgames.clear_inv(player)
     skywars.lobbys[lobby].players[name] = false
-    sfinv.set_page(player, "subgames:kits")
+    sfinv.set_page(player, "subgames:maps")
     subgames.spectate(player)
     return "Lobby is ingame! So you are now spectating."
   else skywars.player_lobby[name] = lobby
     player:setpos(skywars.lobbys[lobby].specpos)
     subgames.clear_inv(player)
-    if lobby ~= 0 then
-      skywars.lobbys[lobby].players[name] = true
-      sfinv.set_page(player, "subgames:kits")
-      player:get_inventory():add_item("main", "subgames:leaver")
-      skywars.win(lobby)
-    else minetest.after(0.1, function()
-      player:get_inventory():add_item("main", "main:teleporter")
-      player:get_inventory():add_item("main", "skywars:teleporter")
-      sfinv.set_page(player, "subgames:lobbys")
-      end)
-    end
+    sfinv.set_page(player, "subgames:maps")
+    skywars.win(lobby)
     if skywars.lobbys[lobby].mustcreate == true then
       skywars.lobbys[lobby].mustcreate = false
       minetest.chat_send_all("Creating Skywars map don't leave!, May lag")
@@ -221,16 +212,14 @@ function skywars.join_game(player, lobby)
       minetest.fix_light(skywars.lobbys[lobby].mappos1, skywars.lobbys[lobby].mappos2)
       worldedit.clear_objects(skywars.lobbys[lobby].mappos1, skywars.lobbys[lobby].mappos2)
     end
-    if lobby ~= 0 then
-      return "You joined the map "..skywars.lobbys[lobby].string_name.."!"
-    end
+    return "You joined the map "..skywars.lobbys[lobby].string_name.."!"
   end
 end
 
 function skywars.leave_game(player)
   local name = player:get_player_name()
   local lobby = skywars.player_lobby[name]
-  if lobby and lobby ~= 0 then
+  if lobby then
     skywars.lobbys[lobby].players[name] = nil
     subgames.unspectate(player)
     if skywars.lobbys[lobby].ingame then

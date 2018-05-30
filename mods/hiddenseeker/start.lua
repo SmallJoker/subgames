@@ -138,8 +138,7 @@ function hiddenseeker.win(lobby)
         subgames.clear_inv(player)
         hiddenseeker.lobbys[lobby].players[player:get_player_name()] = true
         player:setpos(hiddenseeker.lobbys[lobby].pos)
-        sfinv.set_page(player, "3d_armor:armor")
-        player:get_inventory():add_item("main", "subgames:leaver")
+        sfinv.set_page(player, "subgames:kits")
       end
       hiddenseeker.win(lobby)
     end)
@@ -182,8 +181,7 @@ function hiddenseeker.win(lobby)
         subgames.clear_inv(player)
         hiddenseeker.lobbys[lobby].players[player:get_player_name()] = true
         player:setpos(hiddenseeker.lobbys[lobby].pos)
-        sfinv.set_page(player, "3d_armor:armor")
-        player:get_inventory():add_item("main", "subgames:leaver")
+        sfinv.set_page(player, "subgames:kits")
       end
       hiddenseeker.win(lobby)
     end)

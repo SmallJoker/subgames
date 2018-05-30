@@ -449,15 +449,10 @@ end
   TODO skywars unendliche wasser quelle und blöcke
   TODO maps
   TODO may flowing liquid fix
-  TODO split skywars and hiddenseeker warte lobby
   TODO no regen after time
-  TODO hide and seek kick meldung
-  TODO instant map rein
   TODO profiler
   TODO Skywars dias balanchen
-  TODO fix restart
   TODO aduser
-  TODO hypixel fragen
 Hide and seek map machen neue skywars submerged.
 may später shooter mod. TODO
 Mit server umleitung beschprechen.

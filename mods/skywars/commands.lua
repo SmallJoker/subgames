@@ -16,9 +16,10 @@ subgames.register_chatcommand("leave", {
   func = function(user)
     local player = minetest.get_player_by_name(user)
     if player then
+      local lobby = skywars.player_lobby[user]
       skywars.leave_game(player)
-      skywars.win(skywars.player_lobby[user])
-      skywars.join_game(player, 0)
+      skywars.win(lobby)
+      skywars.join_game(player, lobby)
       minetest.chat_send_player(user, "You have left the Game!")
     end
 
@@ -34,9 +35,10 @@ subgames.register_chatcommand("letleave", {
 	func = function(name, param)
     local player = minetest.get_player_by_name(param)
 		if player then
+      local lobby = skywars.player_lobby[param]
       skywars.leave_game(player)
-      skywars.win(skywars.player_lobby[param])
-      skywars.join_game(player, 0)
+      skywars.win(lobby)
+      skywars.join_game(player, lobby)
       minetest.chat_send_player(name, "You have left the player "..param)
     else minetest.chat_send_player(name, "The player is not online!")
     end

@@ -7,10 +7,6 @@ dofile(minetest.get_modpath("hiddenseeker") .."/ingame.lua")
 dofile(minetest.get_modpath("hiddenseeker") .."/commands.lua")
 
 hiddenseeker.lobbys = {
-  [0] = {
-    ["pos"] = {x=16, y=1, z=709},
-    ["ingame"] = false
-  },
   [1] = {
     ["string_name"] = "Hide and Seek Karsthafen",
     ["pos"] = {x=716, y=12, z=732},
@@ -55,7 +51,7 @@ minetest.register_tool("hiddenseeker:teleporter", {
   end,
 })
 
-function hiddenseeker.open_teleporter_form(player)
+function hiddenseeker.create_teleporter_form()
   local name = player:get_player_name()
   local status = {}
   for lobby, table in pairs(hiddenseeker.lobbys) do
@@ -69,8 +65,7 @@ function hiddenseeker.open_teleporter_form(player)
       status[lobby] = #hiddenseeker.get_lobby_players(lobby).."/"..hiddenseeker.max_players.." "..status[lobby]
     end
   end
-  minetest.show_formspec(name, "hiddenseeker:teleporter",
-    "size[4,4]" ..
+    return ("size[4,4]" ..
     "image_button[0,0;2,2;hideandseek.png;map1;"..status[1].."]" ..
     "tooltip[map1;"..hiddenseeker.lobbys[1].string_name.."]")
 end
@@ -89,7 +84,7 @@ end)
 subgames.register_on_joinplayer(function(player, lobby)
   if lobby == "hiddenseeker" then
     local name = player:get_player_name()
-    hiddenseeker.join_game(player, 0)
+    hiddenseeker.join_game(player, 1)
     subgames.add_mithud(player, "You joined Hide and Seek!", 0xFFFFFF, 3)
     subgames.chat_send_all_lobby("hiddenseeker", "*** "..name.." joined Hide and Seek.")
     if not hiddenseeker.disguis[name] then
@@ -167,9 +162,9 @@ end)
 
 function hiddenseeker.join_game(player, lobby)
   local name = player:get_player_name()
-  if lobby ~= 0 and #hiddenseeker.get_lobby_players(lobby) >= hiddenseeker.max_players then
+  if #hiddenseeker.get_lobby_players(lobby) >= hiddenseeker.max_players then
     return "The lobby is full!"
-  elseif lobby ~= 0 and hiddenseeker.lobbys[lobby].ingame == true then
+  elseif hiddenseeker.lobbys[lobby].ingame == true then
     hiddenseeker.player_lobby[name] = lobby
     hiddenseeker.lobbys[lobby].players[name] = "seeker"
     hiddenseeker.chat_send_all_lobby(lobby, name.." is Seeker.")
@@ -185,34 +180,24 @@ function hiddenseeker.join_game(player, lobby)
   else hiddenseeker.player_lobby[name] = lobby
     player:setpos(hiddenseeker.lobbys[lobby].pos)
     subgames.clear_inv(player)
-    if lobby ~= 0 then
-      hiddenseeker.lobbys[lobby].players[name] = true
-      player:set_nametag_attributes({color = {a = 0, r = 255, g = 255, b = 255}})
-      sfinv.set_page(player, "3d_armor:armor")
-      player:get_inventory():add_item("main", "subgames:leaver")
-      hiddenseeker.win(lobby)
-    else minetest.after(0.1, function()
-      player:get_inventory():add_item("main", "main:teleporter")
-      player:get_inventory():add_item("main", "hiddenseeker:teleporter")
-      sfinv.set_page(player, "subgames:lobbys")
-      end)
-    end
+    hiddenseeker.lobbys[lobby].players[name] = true
+    player:set_nametag_attributes({color = {a = 0, r = 255, g = 255, b = 255}})
+    sfinv.set_page(player, "subgames:kits")
+    hiddenseeker.win(lobby)
     if hiddenseeker.lobbys[lobby].mustcreate == true then
       hiddenseeker.lobbys[lobby].mustcreate = false
       minetest.chat_send_all("Creating Hide and seek map don't leave!, May lag")
       local schem = minetest.get_worldpath() .. "/schems/" .. hiddenseeker.lobbys[lobby].schem .. ".mts"
       minetest.place_schematic(hiddenseeker.lobbys[lobby].schempos, schem)
     end
-    if lobby ~= 0 then
-      return "You joined the map "..hiddenseeker.lobbys[lobby].string_name.."!"
-    end
+    return "You joined the map "..hiddenseeker.lobbys[lobby].string_name.."!"
   end
 end
 
 function hiddenseeker.leave_game(player)
   local name = player:get_player_name()
   local lobby = hiddenseeker.player_lobby[name]
-  if lobby and lobby ~= 0 then
+  if lobby then
     hiddenseeker.lobbys[lobby].players[name] = nil
     player:set_nametag_attributes({color = {a = 255, r = 255, g = 255, b = 255}})
     if hiddenseeker.lobbys[lobby].ingame then

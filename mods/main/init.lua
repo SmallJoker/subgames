@@ -35,9 +35,18 @@ minetest.register_on_player_receive_fields(function(player, formname, pressed)
     if pressed.mesewars then
       subgames.change_lobby(player, "mesewars")
     elseif pressed.hiddenseeker then
-      subgames.change_lobby(player, "hiddenseeker")
+      if #subgames.get_lobby_players("hiddenseeker") < hiddenseeker.max_players*#hiddenseeker.lobbys then
+        subgames.change_lobby(player, "hiddenseeker")
+      end
     elseif pressed.skywars then
-      subgames.change_lobby(player, "skywars")
+      local count = 0
+      for numb, table in pairs(skywars.lobbys) do
+        count = count + table.playercount
+      end
+      if #subgames.get_lobby_players("skywars") < count then
+        subgames.change_lobby(player, "skywars")
+      else minetest.chat_send_player(name, "Skywars is full!")
+      end
     end
     minetest.close_formspec(name, "main:teleporter")
   end

@@ -4,7 +4,6 @@ function skywars.may_start_game(lobby)
   local playercount = #skywars.get_lobby_players(lobby)
   if playercount >=2 and not start[lobby] and lobby ~= 0 then
     start[lobby] = true
-    skywars.chat_send_all_lobby(0, "The Game "..skywars.lobbys[lobby].string_name.." is now starting.")
     skywars.chat_send_all_lobby(lobby, "Game starts in 15 seconds!")
     for _,player in ipairs(skywars.get_lobby_players(lobby)) do
       subgames.add_bothud(player, "Game starts in 15 seconds!", 0xFFAE19, 2)
@@ -105,8 +104,7 @@ function skywars.win(lobby)
           subgames.clear_inv(player)
           subgames.unspectate(player)
           skywars.lobbys[lobby].players[player:get_player_name()] = true
-          sfinv.set_page(player, "subgames:kits")
-          player:get_inventory():add_item("main", "subgames:leaver")
+          sfinv.set_page(player, "subgames:maps")
           local privs = minetest.get_player_privs(name)
           privs.craft = nil
           minetest.set_player_privs(name, privs)

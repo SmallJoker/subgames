@@ -1,17 +1,4 @@
-
-minetest.register_tool("skywars:teleporter", {
-  description = "Skywars Teleporter",
-	inventory_image = "dye_green.png",
-	on_use = function(itemstack, user, pointed_thing)
-    skywars.open_teleporter_form(user)
-  end,
-  on_secondary_use = function(itemstack, user, pointed_thing)
-    skywars.open_teleporter_form(user)
-  end,
-})
-
-function skywars.open_teleporter_form(player)
-  local name = player:get_player_name()
+function skywars.create_teleporter_form()
   local status = {}
   for lobby, table in pairs(skywars.lobbys) do
     if lobby ~= 0 then
@@ -24,13 +11,13 @@ function skywars.open_teleporter_form(player)
       status[lobby] = #skywars.get_lobby_players(lobby).."/"..skywars.lobbys[lobby].playercount.." "..status[lobby]
     end
   end
-  minetest.show_formspec(name, "skywars:teleporter",
-    "size[4,5]" ..
+  local toreturn = ("size[4,5]" ..
     "image_button[0,0;2,2;tiki.jpg;map1;"..status[1].."]" ..
     "tooltip[map1;"..skywars.lobbys[1].string_name.."]" ..
     "image_button[2,0;2,2;submerged.png;map2;"..status[2].."]" ..
     "tooltip[map2;"..skywars.lobbys[2].string_name.."]"..
     "label[0,5;All maps from Hypixel.net]")
+  return toreturn
 end
 
 local function get_lobby_from_pos(pos)
@@ -43,24 +30,10 @@ local function get_lobby_from_pos(pos)
   end
 end
 
-minetest.register_on_player_receive_fields(function(player, formname, pressed)
-  if formname == "skywars:teleporter" then
-    local name = player:get_player_name()
-    if pressed.map1 then
-      skywars.leave_game(player)
-      minetest.chat_send_player(name, skywars.join_game(player, 1))
-    elseif pressed.map2 then
-      skywars.leave_game(player)
-      minetest.chat_send_player(name, skywars.join_game(player, 2))
-    end
-    minetest.close_formspec(name, "skywars:teleporter")
-  end
-end)
-
 subgames.register_on_joinplayer(function(player, lobby)
   if lobby == "skywars" then
     local name = player:get_player_name()
-    skywars.join_game(player, 0)
+    skywars.join_game(player, 1)
     subgames.add_mithud(player, "You joined Skywars!", 0xFFFFFF, 3)
     subgames.chat_send_all_lobby("skywars", "*** "..name.." joined Skywars.")
   end
