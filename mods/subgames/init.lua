@@ -455,6 +455,9 @@ end
   TODO instant map rein
   TODO profiler
   TODO Skywars dias balanchen
+  TODO fix restart
+  TODO aduser
+  TODO hypixel fragen
 Hide and seek map machen neue skywars submerged.
 may später shooter mod. TODO
 Mit server umleitung beschprechen.
