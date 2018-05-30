@@ -451,6 +451,10 @@ end
   TODO may flowing liquid fix
   TODO split skywars and hiddenseeker warte lobby
   TODO no regen after time
+  TODO hide and seek kick meldung
+  TODO instant map rein
+  TODO profiler
+  TODO Skywars dias balanchen
 Hide and seek map machen neue skywars submerged.
 may später shooter mod. TODO
 Mit server umleitung beschprechen.
