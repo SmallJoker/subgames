@@ -51,11 +51,12 @@ subgames.register_chatcommand("restart", {
   lobby = "skywars",
   func = function(name)
     local msg = core.colorize("red", "Restarting Game (by " .. name .. ")")
-    skywars.chat_send_all_lobby(skywars.player_lobby[name], msg)
-    for _,player in ipairs(skywars.get_lobby_players(skywars.player_lobby[name])) do
+    local lobby = skywars.player_lobby[name]
+    skywars.chat_send_all_lobby(lobby, msg)
+    for _,player in ipairs(skywars.get_lobby_players(lobby)) do
       skywars.leave_game(player)
-      skywars.join_game(player, 1)
+      skywars.join_game(player, lobby)
     end
-    skywars.win(skywars.player_lobby[name])
+    skywars.win(lobby)
   end,
 })
