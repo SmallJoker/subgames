@@ -6,7 +6,3 @@
 [submodule "mods/minetest-bows"]
 	path = mods/minetest-bows
 	url = https://github.com/Arcelmi/minetest-bows.git
-
-[submodule "mods/fairplay"]
-	path = mods/fairplay
-	url = https://github.com/TalkLounge/fairplay.git
