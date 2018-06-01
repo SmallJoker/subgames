@@ -141,7 +141,11 @@ minetest.register_on_player_receive_fields(function(player, form, pressed)
 
 
 		if ((not pressed.yes) or pressed.no) then
-			return minetest.kick_player(name,arok_text[i][9])
+			minetest.after((0.1), function(i)
+				create_agreerules_form(i)
+				return minetest.show_formspec(name, "AgreeRulesYesNoForm",agreerules_form)
+			end, i)
+			return true
 		end
 
 		if Enable_type_text_to_accept==true then
@@ -161,6 +165,9 @@ minetest.register_on_player_receive_fields(function(player, form, pressed)
 
 			minetest.set_player_privs(name, privs)
 			minetest.chat_send_player(name,arok_text[i][15] .." "..name.. " " .. arok_text[i][10])
+			minetest.after(0.1, function()
+				minetest.show_formspec(name, "main:info", main.get_help_form("general"))
+			end)
 	end
 end)
 

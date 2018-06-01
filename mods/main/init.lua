@@ -142,13 +142,73 @@ end
 
 core.get_server_status = minetest.get_server_status
 
---[[
+local info = {
+  ["general"] = {
+    ["name"] = "General",
+    ["text"] = [[Subgames for all is minigame server for everyone. We have three minigames Mesewars, Hide and Seek and Skywars. We want that you have fun at the server to make this sure we have rules for everyone. If you igonre the rules we have to ban you from the the server. We want that the players play fair together and that the respekt each other. The chat is splitted into different channels. If you want to write something to somebody who is not in your lobby, you have to use:
+    @PLAYERNAME [msg]
+    or to everyone:
+    @all [msg] or @a [msg] ]]
+  },
+  ["mesewars"] = {
+    ["name"] = "Mesewars",
+    ["text"] = [[Mesewars is like Eggwars or Bedwars in Minecraft Mesewars is a game in the Sky you have to eliminate the other teams. If you kill a other player he can respawn until you destroy his Mese in his team. In your teambase you have a shop. You can buy item with bronze, that you find in your base, with iron and with gold, that you only find in the middle. The map has four teams with each four players. Please be fair and only team with your teammates and not with other teams.]]
+  },
+  ["hiddenseeker"] = {
+    ["name"] = "Hide and Seek",
+    ["text"] = [[In hide and seek the Hiders try to hide. They disquis into a block, when they stand 5 seconds still. You undisquis if you move or a Seeker hits you with his sword. When you get killed from a Seeker you respawn as a Seeker. As seeker your Goal is to kill all hiders. When all hiders are death the seekers win the game, if the seekers don't find all hiders the hiders win after 5 minutes.]]
+  },
+  ["skywars"] = {
+    ["name"] = "Skywars",
+    ["text"] = [[Skywars is just like in Minecraft. In Skywars you join on a small island you find weapons and blocks in the chests. Your goal is to kill all other players on their islands. In the middle of the maps is one big island with many chests and more items. Please be fair to other players and don't team in skywars it's not allowed otherwise we have to ban you temporarily.]]
+  },
+  ["commands"] = {
+    ["name"] = "Commands",
+    ["text"] = [[In minetest you have a lots a commands you have to write the commands in the chat. All commands start with a /.
+This are the important commands for the server:
+/hub to get to the main lobby
+/leave to leave the the current Round
+/msg [playername] [msg] to write a private message to a player
+/w [playername] to find out where a player is
+/report [playername] to report a player if he break a rule
+/rules to see the rules of the server
+/info to see this again
+You find the kits, skins and more in your inventory.]]
+  }
+}
+
+
 function main.get_help_form(type)
   local toreturn = (
-  "size[6,4]"..
-  "button[0,0;2,1;General;general]"..
-  "button[0,1;2,1;Mesewars;mesewars]"..
-  "button[0,2;2,1;Hide and Seek;hiddenseeker]"..
-  "button[0,3;2,1;Skywars;skywars]"..
-  "textarea[2,0;4,4;text;INFO;]"
-)]]
+  "size[8,5]"..
+  "button[0,0;2,1;general;General]"..
+  "button[0,1;2,1;mesewars;Mesewars]"..
+  "button[0,2;2,1;hiddenseeker;Hide and Seek]"..
+  "button[0,3;2,1;skywars;Skywars]"..
+  "button[0,4;2,1;commands;Commands]"..
+  "textarea[2.5,0.5;5.5,5;text;;"..minetest.formspec_escape(info[type].text).."]"..
+  "label[3,0;"..info[type].name.."]")
+  return toreturn
+end
+
+minetest.register_chatcommand("info", {
+  params = "",
+  description = "Use it to see the helpguide!",
+  func = function(name)
+    minetest.show_formspec(name, "main:info", main.get_help_form("general"))
+  end,
+})
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+ if formname == "main:info" then
+  local type
+  if fields.general then type = "general" end
+  if fields.mesewars then type = "mesewars" end
+  if fields.hiddenseeker then type = "hiddenseeker" end
+  if fields.skywars then type = "skywars" end
+  if fields.commands then type = "commands" end
+  if type then
+   minetest.show_formspec(player:get_player_name(), "main:info", main.get_help_form(type))
+  end
+ end
+end)
