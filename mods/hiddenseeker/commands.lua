@@ -51,7 +51,7 @@ subgames.register_chatcommand("restart", {
   lobby = "hiddenseeker",
   func = function(name)
     local msg = core.colorize("red", "Restarting Game (by " .. name .. ")")
-    local lobby = hiddenseeker.player_lobby[param]
+    local lobby = hiddenseeker.player_lobby[name]
     hiddenseeker.chat_send_all_lobby(lobby, msg)
     for _,player in ipairs(hiddenseeker.get_lobby_players(lobby)) do
       hiddenseeker.leave_game(player)
