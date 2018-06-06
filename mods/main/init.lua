@@ -1,6 +1,6 @@
 --  This is the file which manages the main lobby
 main = {}
-
+local mustcreate = true
 minetest.register_tool("main:teleporter", {
   description = "Teleporter",
 	inventory_image = "compass.png",
@@ -60,13 +60,19 @@ subgames.register_on_joinplayer(function(player, lobby)
     local inv = player:get_inventory()
     inv:add_item("main", "main:teleporter")
     sfinv.set_page(player, "subgames:lobbys")
+    if mustcreate == true then
+      mustcreate = false
+      local param1 = "mainlobby"
+      local schem = minetest.get_worldpath() .. "/schems/" .. param1 .. ".mts"
+      minetest.place_schematic({x=-24, y=601, z=7}, schem)
+    end
     minetest.after(1, function()
       if player:is_player_connected() and minetest.get_player_privs(name).shout then
         main.open_teleporter_form(player)
-	subgames.clear_inv(player)
-	local inv = player:get_inventory()
-    	inv:add_item("main", "main:teleporter")
-   	sfinv.set_page(player, "subgames:lobbys")
+	      subgames.clear_inv(player)
+	      local inv = player:get_inventory()
+    	  inv:add_item("main", "main:teleporter")
+   	    sfinv.set_page(player, "subgames:lobbys")
       end
     end)
   end
