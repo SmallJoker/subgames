@@ -72,10 +72,10 @@ skywars.lobbys = {
     ["specpos"] = {x=1058, y=2036, z=58},
     ["mustcreate"] = true,
     ["mapblocks"] = {},
-    ["mappos1"] = {x=1000, y=2000, z=0},
-    ["mappos2"] = {x=1118, y=2070, z=126},
+    ["mappos1"] = {x=999, y=1999, z=-1},
+    ["mappos2"] = {x=1119, y=2071, z=127},
     ["schem"] = "tiki",
-    ["schempos"] = {x=1000, y=2000, z=0}
+    ["schempos"] = {x=999, y=1999, z=-1}
   },
   [2] = {
     ["string_name"] = "Submerged",
@@ -148,10 +148,10 @@ skywars.lobbys = {
     ["specpos"] = {x=53, y=2016, z=1059},
     ["mustcreate"] = true,
     ["mapblocks"] = {},
-    ["mappos1"] = {x=0, y=1990, z=1000},
-    ["mappos2"] = {x=111, y=2042, z=1107},
+    ["mappos1"] = {x=-1, y=1999, z=999},
+    ["mappos2"] = {x=112, y=2039, z=1108},
     ["schem"] = "submerged",
-    ["schempos"] = {x=0, y=2000, z=1000}
+    ["schempos"] = {x=-1, y=1999, z=999}
   }
 }
 
