@@ -263,9 +263,6 @@ function mesewars.start_game()
   spawner = true
   spawnfast = maxplayers
   starts = false
-  minetest.after(30, function()
-    mesewars.fix()
-  end)
 end
 
 local time_timer = 0
@@ -516,39 +513,4 @@ function mesewars.win()
   win_player = ""
   win_team = {}
   rteam_count = 0
-end
-
---  Add a fix function
-function mesewars.fix()
-  for _,player in ipairs(subgames.get_lobby_players("mesewars")) do
-     mesewars.color_tag(player)
-  end
-  for playernumb, playero in pairs(team1_players) do
-    local player = minetest.get_player_by_name(playero)
-    if player:is_player_connected() ~= true then
-      table.remove(team1_players, playernumb)
-      mesewars.win()
-    end
-  end
-  for playernumb, playero in pairs(team2_players) do
-    local player = minetest.get_player_by_name(playero)
-    if player:is_player_connected() ~= true then
-      table.remove(team2_players, playernumb)
-      mesewars.win()
-    end
-  end
-  for playernumb, playero in pairs(team3_players) do
-    local player = minetest.get_player_by_name(playero)
-    if player:is_player_connected() ~= true then
-      table.remove(team3_players, playernumb)
-      mesewars.win()
-    end
-  end
-  for playernumb, playero in pairs(team4_players) do
-    local player = minetest.get_player_by_name(playero)
-    if player:is_player_connected() ~= true then
-      table.remove(team4_players, playernumb)
-      mesewars.win()
-    end
-  end
 end

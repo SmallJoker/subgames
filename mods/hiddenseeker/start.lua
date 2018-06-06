@@ -63,16 +63,18 @@ function hiddenseeker.start_game(lobby)
   end
   for name in pairs(hiddenseeker.lobbys[lobby].players) do
     local player = minetest.get_player_by_name(name)
-    player:set_nametag_attributes({color = {a = 0, r = 255, g = 255, b = 255}})
-    subgames.clear_inv(player)
-    if hiddenseeker.lobbys[lobby].players[name] ~= "seeker" then
-      hiddenseeker.lobbys[lobby].players[name] = hiddenseeker.get_player_block(name)
-      minetest.chat_send_player(name, "You are a hidder, hide quickly.")
-      subgames.add_mithud(player, "You are hidder!", 0xFF0000, 3)
-      player:setpos(hiddenseeker.lobbys[lobby].pos)
-      local inv = player:get_inventory()
-      inv:add_item("main", hiddenseeker.lobbys[lobby].players[name])
-      inv:add_item("main", "hiddenseeker:rotate")
+    if player then
+      player:set_nametag_attributes({color = {a = 0, r = 255, g = 255, b = 255}})
+      subgames.clear_inv(player)
+      if hiddenseeker.lobbys[lobby].players[name] ~= "seeker" then
+        hiddenseeker.lobbys[lobby].players[name] = hiddenseeker.get_player_block(name)
+        minetest.chat_send_player(name, "You are a hidder, hide quickly.")
+        subgames.add_mithud(player, "You are hidder!", 0xFF0000, 3)
+        player:setpos(hiddenseeker.lobbys[lobby].pos)
+        local inv = player:get_inventory()
+        inv:add_item("main", hiddenseeker.lobbys[lobby].players[name])
+        inv:add_item("main", "hiddenseeker:rotate")
+      end
     end
   end
   hiddenseeker.lobbys[lobby].hidding = true
