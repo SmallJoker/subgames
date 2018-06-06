@@ -40,7 +40,7 @@ end
 
 function hiddenseeker.may_start_game(lobby)
   local playercount = #hiddenseeker.get_lobby_players(lobby)
-  if playercount > 2 and not start[lobby] and lobby ~= 0 then
+  if playercount >= 2 and not start[lobby] and lobby ~= 0 then
     -- Require three players to start; one left over to stop
     start[lobby] = true
     hiddenseeker.chat_send_all_lobby(0, "The game " ..
