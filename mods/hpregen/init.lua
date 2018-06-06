@@ -1,8 +1,8 @@
-local regen_interval = tonumber(minetest.setting_get("regen_interval"))
+local regen_interval = tonumber(minetest.setting_get("regen_interval")) or 0
 if regen_interval <= 0 then
 	regen_interval = 10
 end
-local regen_amount = tonumber(minetest.setting_get("regen_amount"))
+local regen_amount = tonumber(minetest.setting_get("regen_amount")) or 0
 if regen_amount <= 0 then
 	regen_amount = 1
 end
