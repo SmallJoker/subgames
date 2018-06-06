@@ -27,7 +27,7 @@ subgames.register_on_joinplayer(function(name, lobby)
               map_must_create = false
               minetest.after(5, function()
                 minetest.chat_send_all("Creating Mesewars Map please don't leave!")
-                local param1 = "submese"
+                local param1 = "submese2"
                 local schem = minetest.get_worldpath() .. "/schems/" .. param1 .. ".mts"
                 local vm = minetest.get_voxel_manip()
                 vm:read_from_map(minetest.setting_get_pos("mappos1"), minetest.setting_get_pos("mappos2"))
