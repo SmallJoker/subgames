@@ -111,7 +111,7 @@ minetest.register_entity("bow:arrow_ent", {
 			local objects = minetest.get_objects_inside_radius(pos, 2)
 			for _,obj in ipairs(objects) do
 				if (obj:is_player() and minetest.get_player_privs(obj:get_player_name()).interact) or (obj:get_luaentity() and obj:get_luaentity().name ~= "bow:arrow_ent") then
-					obj:punch(self.player, nil, {damage_groups={fleshy=self.charge*2}}, self.object:getvelocity())
+					obj:punch(self.player, nil, {damage_groups={fleshy=self.charge*4}}, self.object:getvelocity())
 					self.object:remove()
 				end
 			end
